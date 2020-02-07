@@ -84,6 +84,7 @@ class WorkStation1:
         self.buffer1 = container.Container(self.env, 2)
         self.serviceTimes = open('ws1.dat').read().splitlines()
         self.serviceTimeIndex = 0
+        self.productCount = 0
         self.action = env.process(self.run())
     
     def run(self):
@@ -99,6 +100,7 @@ class WorkStation1:
                 self.serviceTimeIndex = self.serviceTimeIndex + 1    
                 
             yield self.env.timeout(float(serviceTime))
+            self.productCount = self.productCount + 1
             print("WorkStation 1 finished assembling product 1")
         
 
@@ -111,6 +113,7 @@ class WorkStation2:
         self.buffer2 = container.Container(self.env, 2)
         self.serviceTimes = open('ws2.dat').read().splitlines()
         self.serviceTimeIndex = 0
+        self.productCount = 0
         self.action = env.process(self.run())
     
     def run(self):
@@ -126,6 +129,7 @@ class WorkStation2:
                 self.serviceTimeIndex = self.serviceTimeIndex + 1    
                 
             yield self.env.timeout(float(serviceTime))
+            self.productCount = self.productCount + 1
             print("WorkStation 2 finished assembling product 2")            
         
 class WorkStation3:
@@ -137,6 +141,7 @@ class WorkStation3:
         self.buffer3 = container.Container(self.env, 2)
         self.serviceTimes = open('ws3.dat').read().splitlines()
         self.serviceTimeIndex = 0
+        self.productCount = 0
         self.action = env.process(self.run())
         
     def run(self):
@@ -152,6 +157,7 @@ class WorkStation3:
                     self.serviceTimeIndex = self.serviceTimeIndex + 1    
                         
                 yield self.env.timeout(float(serviceTime))
+                self.productCount = self.productCount + 1
                 print("WorkStation 3 finished assembling product 3")        
 
         
