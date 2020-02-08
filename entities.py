@@ -15,10 +15,9 @@ class Inspector1:
         self.action = env.process(self.run())
              
     def run(self):
-        print("Inspector 1 Start")
         while True:
             serviceTime = self.serviceTimes[self.serviceTimeIndex]
-            if self.serviceTimeIndex == len(self.serviceTimes) - 2:
+            if indexReset(self.serviceTimeIndex,self.serviceTimes):
                 self.serviceTimeIndex = 0         
             else:
                 self.serviceTimeIndex = self.serviceTimeIndex + 1
@@ -27,13 +26,13 @@ class Inspector1:
             print("Inspector 1 finished assembling component 1")
             if self.station1.buffer1.level <= self.station2.buffer1.level and self.station1.buffer1.level <= self.station3.buffer1.level:
                 yield self.station1.buffer1.put(1)
-                print("Component 1 sent to WorkStation 1")
+                print("Component 1 sent to Workstation 1")
             elif self.station2.buffer1.level <= self.station3.buffer1.level:
                 yield self.station2.buffer1.put(1)
-                print("Component 1 sent to WorkStation 2")
+                print("Component 1 sent to Workstation 2")
             else:
                 yield self.station3.buffer1.put(1)
-                print("Component 1 sent to WorkStation 3")
+                print("Component 1 sent to Workstation 3")
         
         
 class Inspector2:
@@ -49,11 +48,10 @@ class Inspector2:
         self.action = env.process(self.run())
         
     def run(self):
-        print("Inspector 2 Start")
         while True:
             if (random.randint(2, 3) == 2):
                 serviceTime = self.serviceTimes2[self.serviceTimeIndex]
-                if self.serviceTimeIndex == len(self.serviceTimes2) - 2:
+                if indexReset(self.serviceTimeIndex, self.serviceTimes2):
                     self.serviceTimeIndex = 0         
                 else:
                     self.serviceTimeIndex = self.serviceTimeIndex + 1
@@ -61,10 +59,10 @@ class Inspector2:
                 yield self.env.timeout(float(serviceTime))
                 print("Inspector 2 finished assembling component 2")               
                 yield self.station2.buffer2.put(1)
-                print("Component 2 sent to WorkStation 2")
+                print("Component 2 sent to Workstation 2")
             else:
                 serviceTime = self.serviceTimes3[self.serviceTimeIndex]
-                if self.serviceTimeIndex == len(self.serviceTimes3) - 1:
+                if indexReset(self.serviceTimeIndex, self.serviceTimes3):
                     self.serviceTimeIndex = 0         
                 else:
                     self.serviceTimeIndex = self.serviceTimeIndex + 1
@@ -72,10 +70,10 @@ class Inspector2:
                 yield self.env.timeout(float(serviceTime))
                 print("Inspector 2 finished assembling component 3") 
                 yield self.station3.buffer3.put(1)
-                print("Component 3 sent to WorkStation 3")
+                print("Component 3 sent to Workstation 3")
                
         
-class WorkStation1:
+class Workstation1:
     
     def __init__(self, env):
         self.env = env
@@ -90,21 +88,20 @@ class WorkStation1:
     def run(self):
         while True:
             yield self.buffer1.get(1)
-            print("WorkStation 1 recieved required components")
+            print("Workstation 1 recieved required components")
             
             serviceTime = self.serviceTimes[self.serviceTimeIndex]
-            self.serviceTimeIndex = self.serviceTimeIndex + 1
-            if self.serviceTimeIndex == len(self.serviceTimes) - 2:
+            if indexReset(self.serviceTimeIndex, self.serviceTimes):
                 self.serviceTimeIndex = 0         
             else:
                 self.serviceTimeIndex = self.serviceTimeIndex + 1    
                 
             yield self.env.timeout(float(serviceTime))
             self.productCount = self.productCount + 1
-            print("WorkStation 1 finished assembling product 1")
+            print("Workstation 1 finished assembling product 1")
         
 
-class WorkStation2:
+class Workstation2:
     def __init__(self, env):
         self.env = env
         self.name = "W2"
@@ -119,20 +116,19 @@ class WorkStation2:
     def run(self):
         while True:
             yield self.buffer1.get(1) & self.buffer2.get(1)
-            print("WorkStation 1 recieved required components")
+            print("Workstation 1 recieved required components")
             
             serviceTime = self.serviceTimes[self.serviceTimeIndex]
-            self.serviceTimeIndex = self.serviceTimeIndex + 1
-            if self.serviceTimeIndex == len(self.serviceTimes) - 2:
+            if indexReset(self.serviceTimeIndex, self.serviceTimes):
                 self.serviceTimeIndex = 0         
             else:
                 self.serviceTimeIndex = self.serviceTimeIndex + 1    
                 
             yield self.env.timeout(float(serviceTime))
             self.productCount = self.productCount + 1
-            print("WorkStation 2 finished assembling product 2")            
+            print("Workstation 2 finished assembling product 2")            
         
-class WorkStation3:
+class Workstation3:
     def __init__(self, env):
         self.env = env
         self.name = "W3"
@@ -147,17 +143,19 @@ class WorkStation3:
     def run(self):
             while True:
                 yield self.buffer1.get(1) & self.buffer3.get(1)
-                print("WorkStation 3 recieved required components")
+                print("Workstation 3 recieved required components")
                     
                 serviceTime = self.serviceTimes[self.serviceTimeIndex]
-                self.serviceTimeIndex = self.serviceTimeIndex + 1
-                if self.serviceTimeIndex == len(self.serviceTimes) - 2:
+                if indexReset(self.serviceTimeIndex, self.serviceTimes):
                     self.serviceTimeIndex = 0         
                 else:
                     self.serviceTimeIndex = self.serviceTimeIndex + 1    
                         
                 yield self.env.timeout(float(serviceTime))
                 self.productCount = self.productCount + 1
-                print("WorkStation 3 finished assembling product 3")        
+                print("Workstation 3 finished assembling product 3")        
 
         
+
+def indexReset(index, serviceTimes):
+    return index == len(serviceTimes) - 2
