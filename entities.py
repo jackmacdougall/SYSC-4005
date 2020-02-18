@@ -10,7 +10,7 @@ class Inspector1:
         self.station1 = station1
         self.station2 = station2
         self.station3 = station3
-        self.serviceTimes = open('servinsp1.dat').read().splitlines()
+        self.serviceTimes = open('data/servinsp1.dat').read().splitlines()
         self.serviceTimeIndex = 0
         self.action = env.process(self.run())
              
@@ -42,8 +42,8 @@ class Inspector2:
         self.name = "I2"
         self.station2 = station2
         self.station3 = station3
-        self.serviceTimes2 = open('servinsp22.dat').read().splitlines()
-        self.serviceTimes3 = open('servinsp23.dat').read().splitlines()
+        self.serviceTimes2 = open('data/servinsp22.dat').read().splitlines()
+        self.serviceTimes3 = open('data/servinsp23.dat').read().splitlines()
         self.serviceTimeIndex = 0
         self.action = env.process(self.run())
         
@@ -80,7 +80,7 @@ class Workstation1:
         self.name = "W1"
         self.product = "P1"
         self.buffer1 = container.Container(self.env, 2)
-        self.serviceTimes = open('ws1.dat').read().splitlines()
+        self.serviceTimes = open('data/ws1.dat').read().splitlines()
         self.serviceTimeIndex = 0
         self.productCount = 0
         self.action = env.process(self.run())
@@ -108,7 +108,7 @@ class Workstation2:
         self.product = "P2"
         self.buffer1 = container.Container(self.env, 2)
         self.buffer2 = container.Container(self.env, 2)
-        self.serviceTimes = open('ws2.dat').read().splitlines()
+        self.serviceTimes = open('data/ws2.dat').read().splitlines()
         self.serviceTimeIndex = 0
         self.productCount = 0
         self.action = env.process(self.run())
@@ -135,7 +135,7 @@ class Workstation3:
         self.product = "P3"
         self.buffer1 = container.Container(self.env, 2)
         self.buffer3 = container.Container(self.env, 2)
-        self.serviceTimes = open('ws3.dat').read().splitlines()
+        self.serviceTimes = open('data/ws3.dat').read().splitlines()
         self.serviceTimeIndex = 0
         self.productCount = 0
         self.action = env.process(self.run())
