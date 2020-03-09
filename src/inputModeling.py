@@ -15,8 +15,8 @@ def histogramAndQQInspector1():
     axis.set_title(r"Histogram of Inspector 1 inspection times")
     axis.set_xlabel("Inspection Time (Minutes)")
     axis.set_ylabel("Frequency")    
-    plt.hist(floatData,  bins=18)
-    frequencies, bin_edges = np.histogram(floatData, bins=18)
+    plt.hist(floatData,  bins=17)
+    frequencies, bin_edges = np.histogram(floatData, bins=17)
     
     #QQ plot
     plt.subplot(1,2,2)
@@ -36,8 +36,8 @@ def histogramAndQQInspector2Component2():
     axis.set_title(r"Histogram of Inspector 2 inspection times for Component 2")
     axis.set_xlabel("Inspection Time (Minutes)")
     axis.set_ylabel("Frequency")    
-    plt.hist(floatData,  bins=18)
-    frequencies, bin_edges = np.histogram(floatData, bins=18)
+    plt.hist(floatData,  bins=17)
+    frequencies, bin_edges = np.histogram(floatData, bins=17)
     
     plt.show()   
     
@@ -59,8 +59,8 @@ def histogramAndQQInspector2Component3():
     axis.set_title(r"Histogram of Inspector 2 inspection times for Component 3")
     axis.set_xlabel("Inspection Time (Minutes)")
     axis.set_ylabel("Frequency")    
-    plt.hist(floatData,  bins=18)
-    frequencies, bin_edges = np.histogram(floatData, bins=18)
+    plt.hist(floatData,  bins=17)
+    frequencies, bin_edges = np.histogram(floatData, bins=17)
     
     #QQ plot
     plt.subplot(1,2,2)
@@ -78,8 +78,8 @@ def histogramAndQQWorkstation1():
     axis.set_title(r"Histogram of Workstation 1 assembly times")
     axis.set_xlabel("Assembly Time (Minutes)")
     axis.set_ylabel("Frequency")     
-    axis.hist(floatData,  bins=18)
-    frequencies, bin_edges = np.histogram(floatData, bins=18)
+    axis.hist(floatData,  bins=17)
+    frequencies, bin_edges = np.histogram(floatData, bins=17)
     
     #QQ plot
     plt.subplot(1,2,2)
@@ -98,8 +98,8 @@ def histogramAndQQWorkstation2():
     axis.set_title(r"Histogram of Workstation 2 assembly times")
     axis.set_xlabel("Service Time")
     axis.set_ylabel("Assembly Time (Minutes)")     
-    plt.hist(floatData, bins=18)
-    frequencies, bin_edges = np.histogram(floatData, bins=18)
+    plt.hist(floatData, bins=17)
+    frequencies, bin_edges = np.histogram(floatData, bins=17)
     
     #QQ plot
     plt.subplot(1,2,2)
@@ -116,8 +116,8 @@ def histogramAndQQWorkstation3():
     axis.set_title(r"Histogram of Workstation 3 assembly times")
     axis.set_xlabel("Service Time")
     axis.set_ylabel("Assembly Time (Minutes)")   
-    plt.hist(floatData,  bins=18)
-    frequencies, bin_edges = np.histogram(floatData, bins=18)
+    plt.hist(floatData,  bins=17)
+    frequencies, bin_edges = np.histogram(floatData, bins=17)
   
     #QQ plot
     plt.subplot(1,2,2)
@@ -138,10 +138,10 @@ def performChiSquare(data, frequencies):
     print("min value = " + str(min_value))
     data_range = max_value - min_value
     print("data range = " + str(data_range))
-    bin_size = data_range/18
+    bin_size = data_range/17
     print("bin width = " + str(bin_size))
     
-    threshold_from_table = 26.296
+    threshold_from_table = 27.587
     threshold_from_calculation = 0.0
     bin_number = 1
     
