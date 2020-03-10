@@ -54,7 +54,7 @@ def histogramAndQQInspector2Component3():
     
     readData = np.array(open('../data/servinsp23.dat').read().splitlines())
     floatData = readData[0:300].astype(np.float)
-    plt.figure(figsize=(12,6))
+    plt.figure(figsize=(18,6))
     axis = plt.subplot(1,2,1)
     axis.set_title(r"Histogram of Inspector 2 inspection times for Component 3")
     axis.set_xlabel("Inspection Time (Minutes)")
@@ -73,7 +73,7 @@ def histogramAndQQInspector2Component3():
 def histogramAndQQWorkstation1():
     readData = np.array(open('../data/ws1.dat').read().splitlines())
     floatData = readData[0:300].astype(np.float)
-    plt.figure(figsize=(12,6))
+    plt.figure(figsize=(18,6))
     axis = plt.subplot(1,2,1)    
     axis.set_title(r"Histogram of Workstation 1 assembly times")
     axis.set_xlabel("Assembly Time (Minutes)")
@@ -93,7 +93,7 @@ def histogramAndQQWorkstation1():
 def histogramAndQQWorkstation2():
     readData = np.array(open('../data/ws2.dat').read().splitlines())
     floatData = readData[0:300].astype(np.float)
-    plt.figure(figsize=(12,6))
+    plt.figure(figsize=(18,6))
     axis = plt.subplot(1,2,1) 
     axis.set_title(r"Histogram of Workstation 2 assembly times")
     axis.set_xlabel("Service Time")
@@ -111,7 +111,7 @@ def histogramAndQQWorkstation2():
 def histogramAndQQWorkstation3():
     readData = np.array(open('../data/ws3.dat').read().splitlines())
     floatData = readData[0:300].astype(np.float)
-    plt.figure(figsize=(12,6))
+    plt.figure(figsize=(18,6))
     axis = plt.subplot(1,2,1)     
     axis.set_title(r"Histogram of Workstation 3 assembly times")
     axis.set_xlabel("Service Time")
