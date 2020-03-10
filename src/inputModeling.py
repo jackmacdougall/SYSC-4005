@@ -6,13 +6,13 @@ import scipy
 import scipy.stats as st
 import warnings
 
-def histogramAndQQInspector1():
+def histogramAndQQInspector1Component1():
     
     readData = np.array(open('../data/servinsp1.dat').read().splitlines())
     floatData = readData[0:300].astype(np.float)
-    plt.figure(figsize=(12,6))
+    plt.figure(figsize=(18,6))
     axis = plt.subplot(1,2,1)
-    axis.set_title(r"Histogram of Inspector 1 inspection times")
+    axis.set_title(r"Histogram of Inspector 1 inspection times for Component 1")
     axis.set_xlabel("Inspection Time (Minutes)")
     axis.set_ylabel("Frequency")    
     plt.hist(floatData,  bins=17)
@@ -31,7 +31,7 @@ def histogramAndQQInspector2Component2():
     
     readData = np.array(open('../data/servinsp22.dat').read().splitlines())
     floatData = readData[0:300].astype(np.float)
-    plt.figure(figsize=(12,6))
+    plt.figure(figsize=(18,6))
     axis = plt.subplot(1,2,1)
     axis.set_title(r"Histogram of Inspector 2 inspection times for Component 2")
     axis.set_xlabel("Inspection Time (Minutes)")
@@ -138,19 +138,19 @@ def performChiSquare(data, frequencies):
     print("min value = " + str(min_value))
     data_range = max_value - min_value
     print("data range = " + str(data_range))
-    bin_size = data_range/17
-    print("bin width = " + str(bin_size))
+    interval_size = data_range/17
+    print("interval width = " + str(interval_size))
     
-    threshold_from_table = 27.587
+    threshold_from_table = 27.488
     threshold_from_calculation = 0.0
-    bin_number = 1
+    interval_number = 1
     
     for observed in frequencies:
-        expected = ((1 - math.exp(lam * bin_number * bin_size * -1)) - (1 - math.exp(lam * (bin_number-1) * bin_size * -1))) * 300
+        expected = ((1 - math.exp(lam * interval_number * interval_size * -1)) - (1 - math.exp(lam * (interval_number-1) * interval_size * -1))) * 300
         if(expected > 0.0):
             threshold_val = (math.pow(observed - expected, 2.0))/expected
             threshold_from_calculation = threshold_from_calculation + threshold_val
-        bin_number = bin_number + 1
+        interval_number = interval_number + 1
 
     if (threshold_from_calculation > threshold_from_table):
         print(str(threshold_from_calculation) + " > " + str(threshold_from_table))
