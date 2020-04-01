@@ -53,7 +53,7 @@ def littleLaw():
     avg_wait_C2W2 = total_wait_C2W2/len(en.queueC2W2WaitTimeList)
     print("Average wait time for C2W2 = ", avg_wait_C2W2, " minutes")
     
-    arrival_rate_C2W2 = en.queueC2W2DepartureCount/2400
+    arrival_rate_C2W2 = en.queueC2W2ArrivalCount/2400
     print("Arrival Rate for C2W2 = ", arrival_rate_C2W2, " components per minute")
             
     little_law_C2W2 = avg_wait_C2W2 * arrival_rate_C2W2
@@ -68,58 +68,24 @@ def littleLaw():
 
     print("Average wait time for C3W3 = ", avg_wait_C3W3, " minutes")
     
-    arrival_rate_C3W3 = en.queueC3W3DepartureCount/2400
+    arrival_rate_C3W3 = en.queueC3W3ArrivalCount/2400
     print("Arrival Rate for C3W3 = ", arrival_rate_C3W3, " components per minute")
             
     little_law_C3W3 = avg_wait_C3W3 * arrival_rate_C3W3
     print("Little's Law calculation for C3W3 = ", little_law_C3W3)   
-
-    print(len(en.queueC3W3WaitTimeList))
-    print(len(en.queueC3W3CapacityList))
-    print(en.queueC3W3DepartureCount)
-    
-    #for e in en.queueC3W3CapacityList:
-        #print(e[0], e[1], e[2])
-        
-    #for w in en.queueC3W3WaitTimeList:
-        #print(w)    
      
 
 def CalculateL(name, lst, threshold):
     oneTime = 0.0
     twoTime = 0.0
     total = 0.0
-    counter = 0
-    putCounter = 0
-    
-    #for entry in lst:      
-        #if counter < threshold:
-            #if entry[0] == 1:
-                #oneTime += entry[1]
-            #elif entry[0] == 2:
-                #twoTime += entry[1]
-            #total += entry[1]
-        #if entry[2] == "get":
-            #counter += 1        
-    #if(total > 0.0):          
-        #avg = (((oneTime)+(twoTime * 2)))/total
-        #print("L for ", name ," = ", avg)   
-    #else:
-        #print("L for ", name ," = 0.0")
     
     for entry in lst:  
-        if not (entry[2] == "put" and putCounter > threshold):
-            if entry[0] == 1:
-                oneTime += entry[1]
-            elif entry[0] == 2:
-                twoTime += entry[1]
-            total += entry[1]
-        if entry[2] == "get":
-            counter += 1 
-        if counter >= threshold:
-            break
-        if entry[2] == "put":
-            putCounter += 1
+        if entry[0] == 1:
+            oneTime += entry[1]
+        elif entry[0] == 2:
+            twoTime += entry[1]
+        total += entry[1]
         
     if(total > 0.0):          
         avg = (((oneTime)+(twoTime * 2)))/2400
