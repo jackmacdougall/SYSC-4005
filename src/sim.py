@@ -58,6 +58,9 @@ def simProd(replications):
     idleTimeWorkstation1 = []
     idleTimeWorkstation2 = []
     idleTimeWorkstation3 = []
+    product1Throughput = []
+    product2Throughput = []
+    product3Throughput = []
             
     
     while(counter < replications):
@@ -84,11 +87,15 @@ def simProd(replications):
         product2Count.append(workstation2.productCount)
         product3Count.append(workstation3.productCount)
         
-        idleTimeInspector1.append(inspector1.idleTime/2400)
-        idleTimeInspector2.append(inspector2.idleTime/2400)
-        idleTimeWorkstation1.append(workstation1.idleTime/2400)
-        idleTimeWorkstation2.append(workstation2.idleTime/2400)
-        idleTimeWorkstation3.append(workstation3.idleTime/2400)
+        idleTimeInspector1.append(inspector1.idleTime/(2400 - 175))
+        idleTimeInspector2.append(inspector2.idleTime/(2400 - 175))
+        idleTimeWorkstation1.append(workstation1.idleTime/(2400 - 175))
+        idleTimeWorkstation2.append(workstation2.idleTime/(2400 - 175))
+        idleTimeWorkstation3.append(workstation3.idleTime/(2400 - 175))
+        
+        product1Throughput.append(workstation1.productCount/(2400 - 175))
+        product2Throughput.append(workstation2.productCount/(2400 - 175))
+        product3Throughput.append(workstation3.productCount/(2400 - 175))
         
         counter += 1
     
@@ -144,6 +151,15 @@ def simProd(replications):
     idleTimeWorkstation2CI = mean_confidence_interval(idleTimeWorkstation2)
     idleTimeWorkstation3CI = mean_confidence_interval(idleTimeWorkstation3)
     
+    product1ThroughputMean = np.mean(product1Throughput)
+    product1ThroughputVariance = stat.variance(product1Throughput)
+    product1ThroughputCI = mean_confidence_interval(product1Throughput)
+    product2ThroughputMean = np.mean(product2Throughput)
+    product2ThroughputVariance = stat.variance(product2Throughput)
+    product2ThroughputCI = mean_confidence_interval(product2Throughput)  
+    product3ThroughputMean = np.mean(product3Throughput)
+    product3ThroughputVariance = stat.variance(product3Throughput)
+    product3ThroughputCI = mean_confidence_interval(product3Throughput)  
     
     within_twenty(component1CountMean, component1CountCI)
     within_twenty(component2CountMean, component2CountCI)
@@ -161,6 +177,10 @@ def simProd(replications):
     within_twenty(idleTimeWorkstation1Mean, idleTimeWorkstation1CI)
     within_twenty(idleTimeWorkstation2Mean, idleTimeWorkstation2CI)
     within_twenty(idleTimeWorkstation3Mean, idleTimeWorkstation3CI)
+    within_twenty(product1ThroughputMean, product1ThroughputCI)
+    within_twenty(product2ThroughputMean, product2ThroughputCI)
+    within_twenty(product3ThroughputMean, product3ThroughputCI)
+    
     
     if(prod_pass):
         print(replications, " replications is adequate")
@@ -180,6 +200,9 @@ def simProd(replications):
         print("Proportion Workstation1 Idle - Mean: ", idleTimeWorkstation1Mean, ", Variance: ", idleTimeWorkstation1Variance, ", CI: ", idleTimeWorkstation1CI)
         print("Proportion Workstation2 Idle - Mean: ", idleTimeWorkstation2Mean, ", Variance: ", idleTimeWorkstation2Variance, ", CI: ", idleTimeWorkstation2CI)
         print("Proportion Workstation3 Idle - Mean: ", idleTimeWorkstation3Mean, ", Variance: ", idleTimeWorkstation3Variance, ", CI: ", idleTimeWorkstation3CI)
+        print("Product 1 Throughput - Mean: ", product1ThroughputMean, ", Variance: ", product1ThroughputVariance, ", CI: ", product1ThroughputCI)
+        print("Product 2 Throughput - Mean: ", product2ThroughputMean, ", Variance: ", product2ThroughputVariance, ", CI: ", product2ThroughputCI)
+        print("Product 3 Throughput - Mean: ", product3ThroughputMean, ", Variance: ", product3ThroughputVariance, ", CI: ", product3ThroughputCI)  
     else:
         print("need more replications to satisfy requirements")
 
