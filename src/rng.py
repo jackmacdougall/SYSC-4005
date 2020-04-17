@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 def inspector1_component1_rng():
     return random_number_generator(np.array(open('../data/servinsp1.dat').read().splitlines()))
@@ -17,7 +18,9 @@ def workstation2_rng():
 
 def workstation3_rng():
     return random_number_generator(np.array(open('../data/ws3.dat').read().splitlines()))
-    
+
+def random_2_3():
+    return random.randint(2, 3)
 
 def random_number_generator(data):
     floatData = data[0:300].astype(np.float)

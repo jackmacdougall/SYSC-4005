@@ -4,17 +4,19 @@ import inputVerification as iv
 import numpy as np
 import statistics as stat
 import scipy.stats
+import rng
 
 initialize = False
 prod_pass = True
+alternative = False
 
 def sim():
     simulation_env = simpy.Environment()
-    workstation1 = entities.Workstation1(simulation_env)
-    workstation2 = entities.Workstation2(simulation_env)
-    workstation3 = entities.Workstation3(simulation_env)
-    inspector1 = entities.Inspector1(simulation_env, workstation1, workstation2, workstation3)
-    inspector2 = entities.Inspector2(simulation_env, workstation2, workstation3)
+    workstation1 = entities.Workstation1(simulation_env, None)
+    workstation2 = entities.Workstation2(simulation_env, None)
+    workstation3 = entities.Workstation3(simulation_env, None)
+    inspector1 = entities.Inspector1(simulation_env, workstation1, workstation2, workstation3, False, None)
+    inspector2 = entities.Inspector2(simulation_env, workstation2, workstation3, None, None, None)
     minutes = 2400
     simulation_env.run(minutes)
     
@@ -65,11 +67,11 @@ def simProd(replications):
     
     while(counter < replications):
         simulation_env = simpy.Environment()
-        workstation1 = entities.Workstation1(simulation_env)
-        workstation2 = entities.Workstation2(simulation_env)
-        workstation3 = entities.Workstation3(simulation_env)
-        inspector1 = entities.Inspector1(simulation_env, workstation1, workstation2, workstation3)
-        inspector2 = entities.Inspector2(simulation_env, workstation2, workstation3)
+        workstation1 = entities.Workstation1(simulation_env, None)
+        workstation2 = entities.Workstation2(simulation_env, None)
+        workstation3 = entities.Workstation3(simulation_env, None)
+        inspector1 = entities.Inspector1(simulation_env, workstation1, workstation2, workstation3, False, None)
+        inspector2 = entities.Inspector2(simulation_env, workstation2, workstation3, None, None, None)
         minutes = 2400
         simulation_env.run(minutes)
         
@@ -210,6 +212,11 @@ def isProductionRun():
     global initialize
     return initialize
 
+def isAlternative():
+    global alternative
+    return alternative
+
+
 def mean_confidence_interval(data, confidence=0.95):
     a = 1.0 * np.array(data)
     n = len(data)
@@ -222,3 +229,60 @@ def within_twenty(mean, CI):
     if prod_pass:
         twenty_percent = mean * 0.20
         prod_pass = (mean - CI[0] <= twenty_percent and CI[1] - mean <= twenty_percent)
+
+def simAlternative():
+    inspector1component1_servicetimes = []
+    inspector2component2_servicetimes = []
+    inspector2component3_servicetimes = []
+    workstation1_servicetimes = []
+    workstation2_servicetimes = []
+    workstation3_servicetimes = []
+    random_2_3 = []
+    
+    for i in range(400):
+        inspector1component1_servicetimes.append(rng.inspector1_component1_rng()) 
+        inspector2component2_servicetimes.append(rng.inspector2_component2_rng())
+        inspector2component3_servicetimes.append(rng.inspector2_component3_rng())
+        workstation1_servicetimes.append(rng.workstation1_rng())
+        workstation2_servicetimes.append(rng.workstation2_rng())
+        workstation3_servicetimes.append(rng.workstation3_rng())  
+        random_2_3.append(rng.random_2_3())
+        
+    simulation_env = simpy.Environment()
+    workstation1 = entities.Workstation1(simulation_env, workstation1_servicetimes)
+    workstation2 = entities.Workstation2(simulation_env, workstation2_servicetimes)
+    workstation3 = entities.Workstation3(simulation_env, workstation3_servicetimes)
+    inspector1 = entities.Inspector1(simulation_env, workstation1, workstation2, workstation3, True, inspector1component1_servicetimes)
+    inspector2 = entities.Inspector2(simulation_env, workstation2, workstation3, inspector2component2_servicetimes, inspector2component3_servicetimes, random_2_3)
+    minutes = 2400
+    simulation_env.run(minutes)    
+    
+    print('Finished Simulation')
+    
+    print("Components 1 inspected ", inspector1.componentCount)
+    print("Components 2 inspected ", inspector2.component2Count)
+    print("Components 3 inspected ", inspector2.component3Count)
+    
+    print("Components 1 sent to W1 ", entities.queueC1W1DepartureCount)
+    print("Components 1 sent to W2 ", entities.queueC1W2DepartureCount)
+    print("Components 1 sent to W3 ", entities.queueC1W3DepartureCount)
+    print("Components 2 sent to W2 ", entities.queueC2W2DepartureCount)
+    print("Components 3 sent to W3 ", entities.queueC3W3DepartureCount)
+    
+    print("Products 1 assembled ", workstation1.productCount)
+    print("Products 2 assembled ", workstation2.productCount)
+    print("Products 3 assembled ", workstation3.productCount)    
+
+    iv.littleLaw()    
+
+    #simulation_env = simpy.Environment()
+    #workstation1 = entities.Workstation1(simulation_env, workstation1_servicetimes)
+    #workstation2 = entities.Workstation2(simulation_env, workstation2_servicetimes)
+    #workstation3 = entities.Workstation3(simulation_env, workstation3_servicetimes)
+    #inspector1 = entities.Inspector1(simulation_env, workstation1, workstation2, workstation3, False, inspector1component1_servicetimes)
+    #inspector2 = entities.Inspector2(simulation_env, workstation2, workstation3, inspector2component2_servicetimes, inspector2component3_servicetimes, random_2_3)
+    #minutes = 2400
+    #simulation_env.run(minutes)
+    
+    
+    
