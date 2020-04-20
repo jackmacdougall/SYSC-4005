@@ -26,7 +26,7 @@ def littleLaw():
     avg_wait_C1W2 = total_wait_C1W2/len(en.queueC1W2WaitTimeList)
     print("Average wait time for C1W2 = ", avg_wait_C1W2, " minutes")  
     
-    arrival_rate_C1W2 = en.queueC1W2DepartureCount/2400
+    arrival_rate_C1W2 = en.queueC1W2ArrivalCount/2400
     print("Arrival Rate for C1W2 = ", arrival_rate_C1W2, " components per minute")
         
     little_law_C1W2 = avg_wait_C1W2 * arrival_rate_C1W2
@@ -40,7 +40,7 @@ def littleLaw():
     avg_wait_C1W3 = total_wait_C1W3/len(en.queueC1W3WaitTimeList)
     print("Average wait time for C1W3 = ", avg_wait_C1W3, " minutes")
        
-    arrival_rate_C1W3 = en.queueC1W3DepartureCount/2400
+    arrival_rate_C1W3 = en.queueC1W3ArrivalCount/2400
     print("Arrival Rate for C1W3 = ", arrival_rate_C1W3, " components per minute")
         
     little_law_C1W3 = avg_wait_C1W3 * arrival_rate_C1W3

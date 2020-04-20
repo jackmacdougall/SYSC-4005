@@ -53,6 +53,8 @@ queueC3W3DepartureCount = 0
 queueC3W3CapacityStart = 0.0
 
 initialize_time = 175.0
+initialize_time_alternate = 100.0
+
 
 totalArrivals = 0
 average_inspector_service = []
@@ -103,7 +105,7 @@ class Inspector1:
             self.systemTime += float(serviceTime)
             if(initializeCheck(self)):
                 self.componentCount = self.componentCount + 1
-            print("Inspector 1 finished assembling component 1")
+            #print("Inspector 1 finished assembling component 1")
             if (not self.alternative):
                 if self.station1.buffer1.level <= self.station2.buffer1.level and self.station1.buffer1.level <= self.station3.buffer1.level:
                     yield self.env.process(self.queueC1W1(serviceTime))
@@ -136,7 +138,7 @@ class Inspector1:
         idle1Start = self.env.now
         yield self.station1.buffer1.put(1)
         if(initializeCheck(self)):
-            self.idleTime += self.env.now - idle1Start
+            #self.idleTime += self.env.now - idle1Start
             average_inspector_service.append(float(serviceTime) + (self.env.now - idle1Start))
             if(self.station1.buffer1.level == 0):
                 queueC1W1CapacityList.append(tuple((self.station1.buffer1.level,self.env.now - queueC1W1CapacityStart, "put")))
@@ -151,7 +153,7 @@ class Inspector1:
         if(initializeCheck(self)):
             queueC1W1ArrivalCount += 1
         queueC1W1CapacityStart = self.env.now
-        print("Component 1 sent to Workstation 1")        
+        #print("Component 1 sent to Workstation 1")        
                
     def queueC1W2(self, serviceTime):
         global queueC1W2WaitToggle, queueC1W2StartTime1, queueC1W2StartTime2, queueC1W2ArrivalCount, queueC1W2CapacityList, queueC1W2CapacityStart
@@ -160,7 +162,7 @@ class Inspector1:
         idle2Start = self.env.now
         yield self.station2.buffer1.put(1)
         if(initializeCheck(self)):
-            self.idleTime += self.env.now - idle2Start
+            #self.idleTime += self.env.now - idle2Start
             average_inspector_service.append(float(serviceTime) + (self.env.now - idle2Start))
             if(self.station2.buffer1.level == 0):
                 queueC1W2CapacityList.append(tuple((self.station2.buffer1.level, self.env.now - queueC1W2CapacityStart, "put")))
@@ -175,7 +177,7 @@ class Inspector1:
         if(initializeCheck(self)):
             queueC1W2ArrivalCount += 1
         queueC1W2CapacityStart = self.env.now
-        print("Component 1 sent to Workstation 2")           
+        #print("Component 1 sent to Workstation 2")           
         
     def queueC1W3(self, serviceTime):   
         global queueC1W3WaitToggle, queueC1W3StartTime1, queueC1W3StartTime2, queueC1W3ArrivalCount, queueC1W3CapacityList, queueC1W3CapacityStart
@@ -184,7 +186,7 @@ class Inspector1:
         idle3Start = self.env.now
         yield self.station3.buffer1.put(1)
         if(initializeCheck(self)):
-            self.idleTime += self.env.now - idle3Start
+            #self.idleTime += self.env.now - idle3Start
             average_inspector_service.append(float(serviceTime) + (self.env.now - idle3Start))
             if(self.station3.buffer1.level == 0):
                 queueC1W3CapacityList.append(tuple((self.station3.buffer1.level, self.env.now - queueC1W3CapacityStart, "put")))
@@ -199,7 +201,7 @@ class Inspector1:
         if(initializeCheck(self)):
             queueC1W3ArrivalCount += 1
         queueC1W3CapacityStart = self.env.now
-        print("Component 1 sent to Workstation 3")    
+        #print("Component 1 sent to Workstation 3")    
         
         
 class Inspector2:
@@ -246,7 +248,7 @@ class Inspector2:
                 self.systemTime += float(serviceTime)
                 if(initializeCheck(self)):
                     self.component2Count += 1
-                print("Inspector 2 finished assembling component 2") 
+                #print("Inspector 2 finished assembling component 2") 
                 idleC2Start = self.env.now
                 yield self.station2.buffer2.put(1)
                 if(initializeCheck(self)):
@@ -264,7 +266,7 @@ class Inspector2:
                     queueC2W2WaitToggle = True    
                 if(initializeCheck(self)):
                     queueC2W2ArrivalCount += 1
-                print("Component 2 sent to Workstation 2")
+                #print("Component 2 sent to Workstation 2")
                 queueC2W2CapacityStart = self.env.now
             else:
                 if (self.serviceTimes3 == None):
@@ -281,7 +283,7 @@ class Inspector2:
                 average_inspector_service.append(float(serviceTime))
                 if(initializeCheck(self)):
                     self.component3Count += 1
-                print("Inspector 2 finished assembling component 3") 
+                #print("Inspector 2 finished assembling component 3") 
                 idleC3Start = self.env.now
                 yield self.station3.buffer3.put(1)
                 if(initializeCheck(self)):
@@ -299,7 +301,7 @@ class Inspector2:
                     queueC3W3WaitToggle = True 
                 if(initializeCheck(self)):
                     queueC3W3ArrivalCount += 1
-                print("Component 3 sent to Workstation 3")
+                #print("Component 3 sent to Workstation 3")
                 queueC3W3CapacityStart = self.env.now
                
         
@@ -346,7 +348,7 @@ class Workstation1:
                 average_wait_queue.append(self.env.now - queueC1W1StartTime1)
                 queueC1W1WaitToggle = True
                 
-            print("Workstation 1 recieved required components")
+            #print("Workstation 1 recieved required components")
             if (self.serviceTimes == None):
                 serviceTime = rng.workstation1_rng()
             else:
@@ -363,7 +365,7 @@ class Workstation1:
             number_of_components -= 1
             total_capacity.append(tuple((number_of_components+1, self.env.now - total_capacity_start))) 
             total_capacity_start = self.env.now            
-            print("Workstation 1 finished assembling product 1")
+            #print("Workstation 1 finished assembling product 1")
             totalArrivals += 1
         
 
@@ -397,7 +399,7 @@ class Workstation2:
             if (initializeCheck(self)):
                 self.idleTime += self.env.now - idleW2
                 idle = self.env.now - idleW2
-            print("Workstation 2 recieved required components")
+            #print("Workstation 2 recieved required components")
             
             if (self.serviceTimes == None):
                 serviceTime = rng.workstation2_rng()
@@ -408,7 +410,7 @@ class Workstation2:
             if(initializeCheck(self)):
                 self.productCount = self.productCount + 1
             average_workstation_service.append(float(serviceTime) + idle)
-            print("Workstation 2 finished assembling product 2") 
+            #print("Workstation 2 finished assembling product 2") 
             totalArrivals += 2
             number_of_components -= 2
             total_capacity.append(tuple((number_of_components+2, self.env.now - total_capacity_start)))
@@ -481,7 +483,7 @@ class Workstation3:
             if (initializeCheck(self)):
                 self.idleTime += self.env.now - idleW3 
                 idle = self.env.now - idleW3 
-            print("Workstation 3 recieved required components")
+            #print("Workstation 3 recieved required components")
                 
             if (self.serviceTimes == None):
                 serviceTime = rng.workstation3_rng()
@@ -492,7 +494,7 @@ class Workstation3:
             if(initializeCheck(self)):
                 self.productCount = self.productCount + 1
             average_workstation_service.append(float(serviceTime) + idle)
-            print("Workstation 3 finished assembling product 3") 
+            #print("Workstation 3 finished assembling product 3") 
             totalArrivals += 2
             number_of_components -= 2
             total_capacity.append(tuple((number_of_components+2, self.env.now - total_capacity_start))) 
@@ -537,6 +539,63 @@ class Workstation3:
             
 def initializeCheck(self):
     global initialize_time
-    return ((not sim.isProductionRun()) or system.env.now > initialize_time)
+    return ((not sim.isProductionRun()) or system.env.now > initialize_time or (sim.isAlternative() and system.env.now > initialize_time_alternative))
 
+def resetVariables():
+    queueC1W1WaitTimeList = []
+    queueC1W2WaitTimeList = []
+    queueC1W3WaitTimeList = []
+    queueC2W2WaitTimeList = []
+    queueC3W3WaitTimeList = []
+    
+    queueC1W1CapacityList = []
+    queueC1W2CapacityList = []
+    queueC1W3CapacityList = []
+    queueC2W2CapacityList = []
+    queueC3W3CapacityList = []
+    
+    queueC1W1WaitToggle = True
+    queueC1W1StartTime1 = 0.0
+    queueC1W1StartTime2 = 0.0
+    queueC1W1ArrivalCount = 0
+    queueC1W1DepartureCount = 0
+    queueC1W1CapacityStart = 0.0
+    
+    queueC1W2WaitToggle = True
+    queueC1W2StartTime1 = 0.0
+    queueC1W2StartTime2 = 0.0
+    queueC1W2ArrivalCount = 0
+    queueC1W2DepartureCount = 0
+    queueC1W2CapacityStart = 0.0
+    
+    queueC1W3WaitToggle = True
+    queueC1W3StartTime1 = 0.0
+    queueC1W3StartTime2 = 0.0
+    queueC1W3ArrivalCount = 0
+    queueC1W3DepartureCount = 0
+    queueC1W3CapacityStart = 0.0
+    
+    queueC2W2WaitToggle = True
+    queueC2W2StartTime1 = 0.0
+    queueC2W2StartTime2 = 0.0
+    queueC2W2ArrivalCount = 0
+    queueC2W2DepartureCount = 0
+    queueC2W2CapacityStart = 0.0
+    
+    queueC3W3WaitToggle = True
+    queueC3W3StartTime1 = 0.0
+    queueC3W3StartTime2 = 0.0
+    queueC3W3ArrivalCount = 0
+    queueC3W3DepartureCount = 0
+    queueC3W3CapacityStart = 0.0
+    
+    totalArrivals = 0
+    average_inspector_service = []
+    average_wait_queue = []
+    average_workstation_service = []
+    
+    number_of_components = 0
+    total_capacity = []
+    total_capacity_start = 0.0    
+    
      
